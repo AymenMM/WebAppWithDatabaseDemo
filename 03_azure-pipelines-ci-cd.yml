@@ -54,9 +54,12 @@ stages:
       inputs:
         command: restore
         projects: '**/WebApp.csproj'
-    
-    - task: WhiteSource Bolt@20
+
+    - task: WhiteSource@21
       displayName: Scan Nuget Packages
+      inputs:
+        cwd: '$(System.DefaultWorkingDirectory)'
+        projectName: 'WebAppWithDatabaseDemoCiCd'
       enabled: ${{ parameters.runCompletePipeline }}
 
     - task: PowerShell@2
