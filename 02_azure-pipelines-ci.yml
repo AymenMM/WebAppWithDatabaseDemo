@@ -3,12 +3,14 @@ trigger: 'none' # will disable CI builds entirely
 pr: none
 # - master
 # - releases/*
+pool:
+    name: az400m05l05a-pool
+    demands:
+      - agent.name -equals DESKTOP-VBUKVDP-2
 
 jobs:
 - job: WebApp
   displayName: 'Build Web App'
-  pool:
-    vmImage: 'windows-2019'
   variables:
     BuildConfiguration: release
   
@@ -48,8 +50,8 @@ jobs:
     displayName: 'Prepare analysis on SonarCloud'
     inputs:
       SonarCloud: SonarCloud
-      organization: houssemdellai
-      projectKey: WebAppWithDatabaseDemo
+      organization: aymenmehrez
+      projectKey: aymenmehrez_WebAppWithDBDemo
   
   - task: DotNetCoreCLI@2
     displayName: Build
@@ -85,8 +87,7 @@ jobs:
 
 - job: Database
   displayName: 'Build Database'
-  pool:
-    vmImage: 'windows-2019'
+
 
   steps:
   - task: MSBuild@1
@@ -102,8 +103,6 @@ jobs:
 
 - job: Selenium
   displayName: 'Build UI Tests'
-  pool:
-    vmImage: 'windows-2019'
 
   steps:
   - task: NuGetToolInstaller@0
@@ -127,8 +126,7 @@ jobs:
 
 - job: Infrastructure
   displayName: 'Copy Infrastructure files (ARM)'
-  pool:
-    vmImage: 'ubuntu-latest'
+
   steps:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: ARM templates'
