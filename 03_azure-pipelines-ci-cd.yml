@@ -24,7 +24,13 @@ parameters:
   displayName: Run All Tasks ?
   type: boolean
   default: true
+pool:
+    name: az400m05l05a-pool
+    demands:
+      - agent.name -equals DESKTOP-VBUKVDP-2
 
+
+appendCommitMessageToRunName:
 stages:
 - stage: Build_Stage
   displayName: Build Apps
@@ -32,9 +38,6 @@ stages:
 
   - job: WebApp
     displayName: Build Web App
-    pool:
-      name: Hosted Windows 2019 with VS2019 
-      vmImage: 'windows-2019'
     variables:
       BuildConfiguration: release
     steps:
@@ -122,9 +125,6 @@ stages:
 
   - job: Database
     displayName: Build Database
-    pool:
-      vmImage: 'windows-2019'
-      demands: msbuild
     steps:
 
     - task: MSBuild@1
@@ -140,9 +140,6 @@ stages:
 
   - job: Selenium
     displayName: Build UI Tests
-    pool:
-      vmImage: 'windows-2019'
-      demands: msbuild
 
     steps:
     - task: NuGetToolInstaller@0
@@ -166,8 +163,6 @@ stages:
 
   - job: Infrastructure
     displayName: Publish Infra files
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     
     - task: PublishBuildArtifacts@1
@@ -196,8 +191,6 @@ stages:
   jobs:
   - job: Create_DEV
     displayName: Create DEV
-    pool:
-      vmImage: 'windows-2019'
     steps:
 
     - checkout: none
@@ -288,8 +281,6 @@ stages:
   - job: Deploy_DEV
     displayName: Deploy Apps to DEV
     dependsOn: Create_DEV
-    pool:
-      vmImage: 'windows-2019'
     steps:
 
     - checkout: none
@@ -339,8 +330,6 @@ stages:
   - job: Test_DEV
     displayName: Run Selenium tests in DEV
     dependsOn: Deploy_DEV
-    pool:
-      vmImage: 'windows-2019'
     steps:
 
     - checkout: none
