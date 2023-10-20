@@ -8,9 +8,9 @@ pr:
       - README.md
 
 pool:
-    name: az400m05l05a-pool
+    name: az-amz-pool
     demands:
-      - agent.name -equals DESKTOP-VBUKVDP-2
+      - agent.name -equals DESKTOP-VBUKVDP
 
 trigger:
  branches:
