@@ -55,13 +55,6 @@ stages:
         command: restore
         projects: '**/WebApp.csproj'
 
-    - task: WhiteSource@21
-      displayName: Scan Nuget Packages
-      inputs:
-        cwd: '$(System.DefaultWorkingDirectory)'
-        projectName: 'WebAppWithDatabaseDemoCiCd'
-      enabled: ${{ parameters.runCompletePipeline }}
-
     - task: PowerShell@2
       displayName: Prepare for Sonar Cloud
       enabled: ${{ parameters.runCompletePipeline }}
